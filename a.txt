@@ -1,0 +1,17 @@
+
+Quyền tabs trong manifest.json được yêu cầu khi tiện ích Chrome cần truy cập hoặc thao tác với các tab đang mở trong trình duyệt. Cụ thể, quyền tabs cho phép tiện ích của bạn:
+
+Lấy thông tin về các tab hiện tại: Quyền này cho phép bạn sử dụng chrome.tabs.query() để lấy thông tin về các tab hiện đang mở trong trình duyệt, như URL, tiêu đề trang, ID tab, v.v.
+
+Truy cập URL của tab: Mặc dù activeTab cho phép bạn thực hiện một số thao tác với tab đang hoạt động, như chạy tập lệnh trên trang, nhưng nếu bạn muốn truy cập URL của tab hoặc lấy danh sách các tab đang mở, bạn sẽ cần quyền tabs.
+
+Quản lý tab: Quyền tabs cũng cho phép tiện ích đóng, mở, hoặc làm mới các tab hiện có, mặc dù những chức năng này có thể không cần thiết trong trường hợp của bạn.
+
+Trong bối cảnh của bạn:
+Sử dụng chrome.tabs.query: Quyền tabs cần thiết nếu bạn đang sử dụng chrome.tabs.query({active: true}) để lấy thông tin về tab đang hoạt động. Nếu không có quyền này, tiện ích sẽ không thể truy cập thông tin cần thiết về tab và sẽ gây ra lỗi.
+Khi nào bạn không cần tabs:
+Nếu tiện ích chỉ cần truy cập tab hiện tại mà không cần lấy thông tin chi tiết hoặc thao tác với nhiều tab, thì quyền activeTab có thể đủ. Tuy nhiên, nếu bạn gặp lỗi liên quan đến chrome.tabs.query, việc thêm quyền tabs sẽ giúp khắc phục vấn đề này.
+Trong trường hợp tiện ích của bạn chỉ cần truy cập tab đang hoạt động mà không cần lấy thông tin chi tiết như URL hoặc các tab khác, và nếu chrome.tabs.query không phải là yêu cầu bắt buộc, bạn có thể không cần thêm quyền tabs.
+
+
+

@@ -1,28 +1,35 @@
 {
-  "name": "Get Cookie",
-  "description": "Import and export cookie of current website, manage facebook cookie session.",
-  "version": "2.0.0",
-  "icons": { 
-    "16": "icon.png",
-    "48": "icon_48.png",
-    "128": "icon_128.png"
-  },
+  "name": "Get cookies",
+  "version": "1.0.0",
+  "description": "Import/export fbstate.json which can be used to let bot login.",
   "permissions": [
     "cookies",
-    "activeTab",
-    "storage"
+    "tabs",
+    "activeTab"
   ],
   "host_permissions": [
-    "http://*/*",
-    "https://*/*"
+    "https://*.facebook.com/"
   ],
-  "action": {
-    "default_title": "Get Cookie",
-    "default_icon": "icon_128.png",
-    "default_popup": "popup.html"
-  },
   "background": {
     "service_worker": "background.js"
   },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "logo/16.png",
+      "32": "logo/32.png",
+      "48": "logo/48.png",
+      "64": "logo/64.png",
+      "128": "logo/128.png"
+    }
+  },
+  "icons": {
+    "16": "logo/16.png",
+    "32": "logo/32.png",
+    "48": "logo/48.png",
+    "64": "logo/64.png",
+    "128": "logo/128.png"
+  },
+  "incognito": "split",
   "manifest_version": 3
 }

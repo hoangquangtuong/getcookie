@@ -1,275 +1,310 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Get Cookies</title>
-    <style>
-      body {
-      overflow: hidden;
-      margin: 0px;
-      background: white;color: #303030;
-      }
-      .btn {
-      text-align: center;
-      font-family: sans-serif;
-      margin-top: 1px;
-      background: #64c306;
-      font-size: 12px;
-      color: #ffffff;
-      background-color: #64c306;
-      border-color: #64c306;
-      border: 0;
-      padding: 5px 8px;
-      border-radius: 3px;
-      cursor: pointer;
-      text-transform: uppercase;
-      float: right;
-      }
-      .btn_gettoken {
-      text-align: center;
-      font-family: sans-serif;
-      margin-top: 1px;
-      background: #394959;
-      font-size: 12px;
-      color: #ffffff;
-      background-color: #394959;
-      border-color: #394959;
-      border: 0;
-      padding: 5px 8px;
-      border-radius: 3px;
-      cursor: pointer;
-      text-transform: uppercase;
-      float: right;
-      }
-      #start_plus:hover {
-      background: #74C523;
-      }
-      #Stop_plus:hover {
-      background: #E46A56;
-      }
-      .btn_red {
-      background: #e64b32;
-      color: white;
-      }
-      .row {
-      width: 100%;
-      float: left;
-      margin-bottom: 10px;
-      }
-      label {
-      font-size: 13px;
-      font-family: arial;
-      line-height: 1.5em;
-      }
-      .main {
-      width: 250px;
-      padding: 10px;
-      }
-      h4 {
-      font-size: 14px;
-      font-family: arial;
-      color: #DB4437;
-      border-bottom: solid 1px gainsboro;
-      padding-bottom: 6px;
-      margin: 0px 0px 10px 0;
-      }
-      .footer {
-      font-size: 12px;
-      float: left;
-      width: 100%;
-      padding: 0px 10px 2px;
-      text-decoration: none;
-      background-color: #efefef;
-      border-top: solid 1px gainsboro;
-      }
-      .footer a {
-      margin-right: 10px;
-      text-decoration: none;
-      color: #999;
-      }
-      .footer a:hover {
-      color: #494949;
-      }
-      #list_account {max-height: 300px;overflow: auto;    margin-top: 5px;}
-      #list_account .acc {
-      font-size: 12px;
+<!-- Copyright 2022 BadAimWeeb. All rights reserved. MIT license. -->
+<head>
+  <script src="sha256.js"></script>
+  <script src="aes.js"></script>
+  <script src="popup.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #8ad978; /*#b4b2b2*/
+      min-width: 50vh;
+    }
+    yourFbstate {
+      width: 90%;
+      height: 200px; /* Điều chỉnh chiều cao theo nhu cầu */
+      border: 1px solid #ccc; /* Đường viền màu xám nhạt */
+      padding: 10px; /* Khoảng cách bên trong */
+      font-family: Arial, sans-serif; /* Đặt phông chữ */
+      font-size: 14px; /* Kích thước phông chữ */
+      background-color: #b4b2b2; /* Màu nền nhạt */
+      color: #333; /* Màu chữ */
+      resize: vertical; /* Cho phép người dùng thay đổi kích thước theo chiều dọc */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+      border-radius: 10px; /* Bo tròn góc 10px */
+      overflow-y: auto; /* Hiển thị thanh cuộn nếu nội dung quá dài */
+    }
+
+    .author {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
       font-weight: bold;
-      color: white;
-      background: #00aaff;
-      margin-bottom: 1px;
-      padding: 5px;
-      position: relative;
-      cursor: pointer;
-      }
-      #list_account .acc:hover {
-      background: #098cce;
-      }
+      color: #000000;
+      margin: 5px 0 5px 0;
+    }
 
-      #list_account .acc .delete {
-      background: #e7505a;
-      color: white;
-      width: 11px;
-      height: 14px;
-      display: none;
-      float: right;
-      text-align: center;
-      font-size: 10px;
+    .five_button .btn_imp,
+    .five_button .btn_exp,
+    .five_button .btn_logout {
+      border: none;
+      border-radius: 20px;
+      color: #ffffff;
       cursor: pointer;
-      position: absolute;
-      right: 0;
-      top: 0;
-      }
-      #list_account .acc:hover .delete{
       display: inline-block;
-      }
-      #list_account .acc .delete:hover {
-      background: #d42b36;
-      }
-      #btncookielogout{float:right;padding: 3px;}
-      .header{
-      float: left;
+      font-family: 'Rubik', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      margin-bottom: 5px;
+      outline: none;
+      padding: 9px;
+      position: relative;
+      transition: all 0.3s;
+      vertical-align: middle;
       width: 100%;
+      height: 32px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      transition: all 0.3s ease;
+    }
+
+    .btn_imp {
+      background-color: #023eae;
+    }
+
+    .btn_exp {
+      background-color: #ad38ab;
+    }
+
+    .btn_logout {
+      background-color: #f70c04;
+    }
+
+    .five_button .btn_imp:hover {
+      opacity: 0.5;
+    }
+
+    .five_button .btn_exp:hover {
+      opacity: 0.5;
+    }
+
+    .five_button .btn_logout:hover {
+      opacity: 0.5;
+    }
+
+    .text-boxes {
+      width: 100%;
+      display: inline-block;
+    }
+
+    .text-boxes .topic {
+      font-size: 18px;
+      font-weight: 400;
+      color: #000000;
+      text-align: center;
+      margin-bottom: 12px;
+      margin-top: 6px;
+    }
+
+    /* CSS cho gradient hoạt hình */
+    .box {
+      position: absolute; /* Đặt vị trí tuyệt đối để điều chỉnh dễ hơn */
+      width: calc(90% + 2px); /* Kích thước lớn hơn 2px so với phần tử chứa */
+      height: calc(200px + 2px); /* Kích thước lớn hơn 2px so với phần tử chứa */
+      border-radius: 10px; /* Bo tròn góc cho .box */
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      z-index: -99; /* Đặt .box nằm dưới các phần tử khác */
+    }
+    .box::before,
+    .box::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(0deg, transparent, #45f3ff, #45f3ff);
+      transform-origin: bottom right;
+      animation: animate 6s linear infinite;
+    }
+
+    .box::after {
+      animation-delay: -3s;
+    }
+
+    @keyframes animate {
+     0% {
+          transform: rotate(0deg);
       }
-    </style>
+      100% {
+         transform: rotate(360deg);
+      }
+    }
 
-    <script src="jquery.min.js"></script>
-    <script src="popup.js">
-    </script>
-  </head>
-  <body>
-    <div id='loading' style="display:none;background: rgba(255, 255, 255 ,0.3);position: fixed;width: 100%;height: 100%;text-align:center;">
-      <div class="lds-svg ng-scope"  style="width: 48px;height: 48px;display: inline-block;margin-top: 92px;">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-rolling">
-          <svg class="lds-spin" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-            <g transform="translate(80,50)">
-              <g transform="rotate(0)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="1" transform="scale(1.065 1.065)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.9s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.9s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(74.27050983124843,67.6335575687742)">
-              <g transform="rotate(36)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.9" transform="scale(1.075 1.075)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.8s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.8s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(59.270509831248425,78.53169548885461)">
-              <g transform="rotate(72)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.8" transform="scale(1.085 1.085)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.7s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.7s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(40.72949016875158,78.53169548885461)">
-              <g transform="rotate(108)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.7" transform="scale(1.095 1.095)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.6s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.6s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(25.72949016875158,67.6335575687742)">
-              <g transform="rotate(144)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.6" transform="scale(1.005 1.005)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.5s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.5s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(20,50.00000000000001)">
-              <g transform="rotate(180)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.5" transform="scale(1.015 1.015)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.4s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.4s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(25.729490168751575,32.366442431225806)">
-              <g transform="rotate(216)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.4" transform="scale(1.025 1.025)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.3s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.3s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(40.729490168751575,21.468304511145394)">
-              <g transform="rotate(252)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.3" transform="scale(1.035 1.035)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.2s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.2s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(59.27050983124842,21.46830451114539)">
-              <g transform="rotate(288)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.2" transform="scale(1.045 1.045)">
-                  <animateTransform attributeName="transform" type="scale" begin="-0.1s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.1s"></animate>
-                </circle>
-              </g>
-            </g>
-            <g transform="translate(74.27050983124842,32.3664424312258)">
-              <g transform="rotate(324)">
-                <circle cx="0" cy="0" r="6" fill="#2897ff" fill-opacity="0.1" transform="scale(1.055 1.055)">
-                  <animateTransform attributeName="transform" type="scale" begin="0s" values="1.1 1.1;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="0s"></animate>
-                </circle>
-              </g>
-            </g>
-          </svg>
-        </svg>
-        </div>
-    </div>
-    <div class="header">
-      <div class=''>
-        <img style='display:none;' src="https://ssl.gstatic.com/images/branding/product/ico/google_plus_alldp.ico" />
-        <h4 style="line-height: 24px;padding: 5px 5px 5px 10px;color:#64C306;">
-          <a href="https://hoangquangtuong.id.vn/" target="blank" style='text-decoration: none;'>
-            <img src="https://hoangquangtuong.id.vn/image/logo_cookie.png" style="width: 24px;margin-right: 5px;vertical-align: bottom;"/>
-          </a>
-		  Get Cookie
-        </h4>
-      </div>
-    </div>
-    <div class="main">
-      <div class="row">
-        <div style="clear: both;display: block;float: left;width: 100%;margin-bottom: 3px;">
-          <input type='text' id='GetUidFromUrl' value='' placeholder='Get Id from link facebook' style="width: 178px;padding: 2px 2px 2px 5px;"/>
-          <button id="btngetidfromlink" type="button" style="padding: 4px 8px;" class="btn">Get ID</button>
-        </div>
+    /**/
+    .text-boxes textarea {
+      height: 200px;
+      width: 90%;
+      font-size: 10px;
+      outline: none;
+      border: 1px solid #F2F3F7;
+      border-radius: 10px;
+      background: #CECECE;
+      padding: 8px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 16px;
+    }
+   
+    .text-boxes textarea::-webkit-scrollbar {
+      display: none;
+    }
 
-        <label style="display:none;margin-bottom: 3px;" id="DivCurrentFacebookId">
-          Facebook ID:
-          <input type='text' id='CurrentFacebookId' value='' style="width: 158px;padding: 2px 2px 2px 5px;"/>
-        </label>
-        <label style="display:block;margin-bottom: 3px;">
-          Cookie:
-          <label id='CurrentCookieUrl' style="color: #05aafc;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;max-width: 148px;display: inline-block;vertical-align: top;font-weight: bold;"></label>
-        </label>
-        <textarea id="cookieresult" rows="5" style="width:100%;word-break: break-all;"></textarea>
-        <button id="btncookieimport" type="button" style="float:left;" class="btn">Import</button>
-        <button id="btngetqr" type="button" style="float:left;margin-left: 5px;" class="btn">QRCODE</button>
-        <button id="btngettoken" type="button" style="float:left;margin-left: 5px;" class="btn_gettoken">Get Token</button>
-        <button id="btncookiesave"  type="button" style=" background-color: #00aaff;display:none" class="btn">Save to list</button>
-      </div>
-      <img id="imgqrcode" style="width:256px;float:left;margin-bottom:5px;display:none;"/>
-      <div class="row">
-        <!--<label style="margin-top: 2px;display: inline-block;margin-bottom: 5px;">Select cookies</label>-->
-        <div style="float: left;">
-          <input type="checkbox" checked="checked" id="auto_save_fbaccount" style="margin-top: 5p;"/>
-          <label style="vertical-align: top;">Lưu facebook</label>
-        </div>
+    .two_button {
+      text-align: center;
+      margin-bottom: 2px;
+    }
 
-        <button id="btncookielogout" type="button" style="" class="btn btn_red">Login new fb</button>
-        <div class="row" id="list_account"></div>
-      </div>
-      <a title="Export all cookies" href="javascript:void(0)" id='btnExportCookie' style="color: #206eab;">
-        Export cookies
-      </a>
-    </div>
-  </body>
+    .btn {
+      width: 180px;
+      height: 38px;
+      border: 1px solid #F2F3F7;
+      border-radius: 19px;
+      background: #2e9f3a;
+      text-align: center;
+      font-size: 13px;
+      color: #ffffff;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      margin: 10px;
+    }
+
+    .two_button #btnCopy:hover,
+    .two_button #btnDownload:hover {
+      opacity: 0.5;
+    }
+
+    #snackbar {
+      left: 50%;
+      transform: translate(-50%, 0);
+      visibility: hidden;
+      min-width: 250px;
+      margin: 0 5px 0 5px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      bottom: 30px;
+    }
+
+    #snackbar.show {
+      visibility: visible;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @-webkit-keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
+
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
+
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+
+    @-webkit-keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="author">
+    <a href="https://github.com/hoangquangtuong" target="_blank" class="author"><img src="./logo/128.png" alt="logo"
+        width="20px" height="20px"></a>
+    <a href="https://github.com/hoangquangtuong" target="_blank" class="author">Github Author</a>
+  </div>
+
+  
+  <div class="five_button" style="width: auto; height: auto; margin-left: 20px; margin-right: 20px">
+
+    <input id="import" type="file" style="display: none; margin-top: 50px " />
+    <label for="import" class="btn_imp">Import FBState</label>
+    <input id="importenc" type="file" style="display: none;" />
+    <label for="importenc" class="btn_imp">Import FBState (encrypted)</label>
+    <input id="importbase64" type="file" style="display: none;" />
+    <label for="importbase64" class="btn_imp" style="margin-bottom: 15px;">Import FBState (base64)</label>
+
+    <input id="export" class="btn_exp" type="button" value="Export FBState" />
+    <input id="exportenc" class="btn_exp" type="button" value="Export FBState (encrypted)" />
+    <input id="exportbase64" class="btn_exp" type="button" value="Export FBState (base64)" />
+
+    <input id="logout" class="btn_logout" type="button" value="Logout (not die fbstate)" style="margin-top: 5px" />
+    <button id="viewCookies" class="btn_imp">View Cookies as TXT</button>
+  <!-- </div>
+  <div class="box"></div>  Box nằm dưới các phần tử khác 
+    <div class="topic">Your Fbstate Here:</div>
+    <textarea id="yourFbstate" placeholder="Your Fbstate" readonly></textarea>
+  </div> -->
+  <div class="text-boxes">
+    <!--<div class="box"></div> Box nằm phía dưới text-boxes -->
+    <div class="topic">Your Fbstate Here:</div>
+    <textarea id="yourFbstate" placeholder="Your Fbstate" readonly></textarea>
+</div>
+
+
+  <div class="two_button">
+    <button id="btnCopy" class="btn">Copy to clipboard</button>
+    <button id="btnDownload" class="btn">Download Fbstate.json</button>
+    <button id="downloadCookies" class="btn">Download Cookies as TXT</button>
+
+
+
+  <div id="snackbar"></div>
+
+</body>
+
 </html>
